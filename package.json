@@ -1,0 +1,22 @@
+{
+  "name": "natureofcode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "p5": "^0.9.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@types/p5": "^0.9.0",
+    "babel-preset-es2015": "^6.24.1",
+    "parcel-bundler": "^1.12.3",
+    "typescript": "^3.6.3"
+  }
+}
