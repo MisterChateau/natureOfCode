@@ -1,12 +1,28 @@
 import p5 from 'p5';
-const p = new p5(setup);
+import Walker from './walker';
 
-function setup(p5: p5) {
-	p5.setup = () => {
-		p5.createCanvas(500, 500, 'webgl');
+const WIDTH =  500;
+const HEIGHT = 500;
+
+
+function sketch(p: p5) {
+	let x: number, y: number;
+	p.setup = () => {
+		p.createCanvas(WIDTH, HEIGHT, 'p2d');
+		p.smooth();
 	}
-	p5.draw = () => {
-		p5.background('pink');
-		p5.ellipse(0, 0, 50, 50 )
+
+	p.draw = () => {
+		const walker: Walker = x && y ? new Walker(p, x, y) : new Walker(p, WIDTH/2, HEIGHT/2);
+
+		p.background('pink');
+
+		walker.display();
+		walker.step();
+
+		x = walker.x;
+		y = walker.y;
 	}
 }
+
+new p5(sketch);
