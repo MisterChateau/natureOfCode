@@ -1,27 +1,32 @@
 import p5 from 'p5';
 import Walker from './walker';
 
-const WIDTH =  500;
-const HEIGHT = 500;
+const WIDTH =  1000;
+const HEIGHT = 1000;
 
+let walkerMax = 10;
+document.addEventListener ('DOMContentLoaded', () => {
+	const control = document.querySelector('input');
+	control.addEventListener('change', () => (walkerMax = Number(control.value)));
+});
 
 function sketch(p: p5) {
-	let x: number, y: number;
+	let history: Walker[] = [];
+
 	p.setup = () => {
 		p.createCanvas(WIDTH, HEIGHT, 'p2d');
+		p.background('#B66DE8');
 		p.smooth();
 	}
 
 	p.draw = () => {
-		const walker: Walker = x && y ? new Walker(p, x, y) : new Walker(p, WIDTH/2, HEIGHT/2);
+		const tail = history[history.length - 1];
 
-		p.background('pink');
+		const walker: Walker = history.length ? new Walker(p, tail.x, tail.y) : new Walker(p, WIDTH/2, HEIGHT/2);
 
-		walker.display();
-		walker.step();
+		if (history.length < walkerMax) history.push(walker);
 
-		x = walker.x;
-		y = walker.y;
+		history.forEach((walker) => (walker.step(), walker.display()));
 	}
 }
 

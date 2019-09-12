@@ -11,8 +11,8 @@ export default class Walker {
 	) {}
 
 	display(): void {
-		this.p.stroke(0);
-		this.p.ellipse(this.x, this.y, 10);
+		this.p.stroke('#FF7899');
+		this.p.ellipse(this.x, this.y, 30);
 	}
 
 	step(): void {
