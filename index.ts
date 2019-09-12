@@ -4,7 +4,7 @@ import Walker from './walker';
 const WIDTH =  1000;
 const HEIGHT = 1000;
 
-let walkerMax = 10;
+let walkerMax = 1;
 document.addEventListener ('DOMContentLoaded', () => {
 	const control = document.querySelector('input');
 	control.addEventListener('change', () => (walkerMax = Number(control.value)));
