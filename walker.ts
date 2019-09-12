@@ -11,14 +11,11 @@ export default class Walker {
 	) {}
 
 	display(): void {
-		this.p.stroke('#FF7899');
-		this.p.ellipse(this.x, this.y, 30);
+		this.p.noStroke().fill(255, 120, 153, 40).ellipse(this.x, this.y, 20);
 	}
 
 	step(): void {
-		const stepX = Math.floor(Math.random() * 3) - 1;
-		const stepY = Math.floor(Math.random() * 3) - 1;
-		this.x = this.x + stepX;
-		this.y = this.y + stepY;
+		this.x = this.p.randomGaussian(500, 100);
+		this.y = this.y;
 	}
 }
