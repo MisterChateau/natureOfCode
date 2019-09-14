@@ -6,20 +6,18 @@ const HEIGHT = 768;
 
 const p = new p5(setup);
 
-function setup(p5: p5) {
-	const mover = new Mover(p5, WIDTH, HEIGHT);
+function setup(p: p5) {
+	const mover = new Mover(p, WIDTH, HEIGHT);
 
-	const velocity = p5.createVector(4, 7);
-
-	p5.setup = () => {
-		p5.createCanvas(WIDTH, HEIGHT, 'p2d');
-		p5.background('#0433BF');
-		p5.frameRate(60);
+	p.setup = () => {
+		p.createCanvas(WIDTH, HEIGHT, 'p2d');
+		p.background('#0433BF');
+		p.frameRate(60);
 	}
-	p5.draw = () => {
+	p.draw = () => {
 		mover
 		.setRebound(false)
-		.setAcceleration(p5.createVector(0.001, 0.01))
+		.setAcceleration(p5.Vector.random2D())
 		.move();
 	}
 }

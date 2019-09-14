@@ -2,21 +2,21 @@ import p5, { Vector } from 'p5';
 
 export default class Mover {
 	private location: Vector;
-	private acceleration: Vector = this.p5.createVector(0, 0);
-	private velocity: Vector = this.p5.createVector(0, 0).limit(10);
+	private acceleration: Vector = this.p.createVector(0, 0);
+	private velocity: Vector = this.p.createVector(0, 0);
 	
 	private canRebound: boolean = true;
 
 	constructor(
-		private p5: p5,
+		private p: p5,
 		private screenWidth: number,
 		private screenHeight: number,
 		) {
-			this.location = p5.createVector(p5.random(0, screenWidth), p5.random(0, screenHeight));
+			this.location = p.createVector(p.random(0, screenWidth), p.random(0, screenHeight));
 		}
 
 	move(): Mover {
-		this.velocity.add(this.acceleration);
+		this.velocity.add(this.acceleration).limit(5);
 		this.location.add(this.velocity);
 
 		this.canRebound ? this.drawWithRebound() : this.draw();
@@ -50,7 +50,7 @@ export default class Mover {
 
 	private drawWithRebound() {
 		this.rebound();
-		this.p5
+		this.p
 			.noStroke()
 			.ellipse(
 				this.location.x,
@@ -61,20 +61,24 @@ export default class Mover {
 	}
 
 	private draw() {
-		this.location.x = this.location.x < this.screenWidth ? this.location.x : 0;
-		this.location.y = this.location.y < this.screenHeight ? this.location.y : 0;
+		this.location.x = this.location.x < this.screenWidth
+			? this.location.x > 0 ? this.location.x : this.screenWidth
+			: 0;
+		this.location.y = this.location.y < this.screenHeight
+			? this.location.y > 0 ? this.location.y : this.screenHeight
+			: 0;
 
-		this.p5
+		this.p
 			.noStroke()
 			.ellipse(
 				this.location.x,
 				this.location.y,
-				10,
+				this.p.randomGaussian(15, 10),
 			)
 			.fill(this.color);
 	}
 
 	private get color() {
-		return this.p5.color(242, this.p5.random(0, 255), 162, this.p5.random(0, 255));
+		return this.p.color(242, this.p.random(0, 255), 162, this.p.random(0, 255));
 	}
 }
