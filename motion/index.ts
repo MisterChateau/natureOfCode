@@ -1,18 +1,14 @@
 import P5, { Color } from 'p5';
 import Mover from './mover';
 
-let WIDTH = 1024;
-let HEIGHT = 768;
+export default function sketch(p: P5) {
+	const WIDTH = p.windowWidth;
+	const HEIGHT = p.windowHeight;
 
-window.onload = () => {
-	WIDTH = window.innerWidth;
-	HEIGHT = window.innerHeight;
-}
-const p = new P5(setup);
-
-function setup(p: P5) {
 	const movers: Mover[] = [];
+
 	const limit = 2;
+
 	const colors = [
 		() => p.color(242, p.random(255),163, p.random(50, 150)),
 		() => p.color(242, 92, p.random(255), p.random(50, 150)),
