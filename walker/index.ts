@@ -1,10 +1,12 @@
 import p5 from 'p5';
 import Walker from './walker';
 
-let walkerMax = 10;
-document.addEventListener ('DOMContentLoaded', () => {
+let limit = 10;
+
+document.addEventListener('DOMContentLoaded', () => {
 	const control = document.querySelector('input');
-	control.addEventListener('change', () => (walkerMax = Number(control.value)));
+	control.value = `${limit}`;
+	control.addEventListener('change', () => (limit = Number(control.value)));
 });
 
 export default function sketch(p: p5) {
@@ -24,7 +26,7 @@ export default function sketch(p: p5) {
 
 		const walker: Walker = history.length ? new Walker(p, tail.x, tail.y) : new Walker(p, WIDTH/2, HEIGHT/2);
 
-		if (history.length < walkerMax) history.push(walker);
+		if (history.length < limit) history.push(walker);
 
 		history.forEach((walker) => (walker.step(), walker.display()));
 	}
