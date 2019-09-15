@@ -1,11 +1,13 @@
 import p5, { Vector } from 'p5';
 
 export default class Mover {
-	private location: Vector;
+	public readonly location: Vector;
 	private acceleration: Vector = this.p.createVector(0, 0);
 	private velocity: Vector = this.p.createVector(0, 0);
 	
 	private canRebound: boolean = true;
+
+	public color: p5.Color;
 
 	constructor(
 		private p: p5,
@@ -34,8 +36,15 @@ export default class Mover {
 		return this;
 	}
 
-	setAcceleration(acceleration: Vector): Mover {
+	accelerate(acceleration: Vector): Mover {
 		this.acceleration = acceleration;
+		return this;
+	}
+
+	accelerateToDirection(target: Vector): Mover {
+		const direction = target.sub(this.location);
+		const normalized = direction.normalize();
+		this.acceleration = normalized.div(10);
 		return this;
 	}
 
@@ -73,12 +82,13 @@ export default class Mover {
 			.ellipse(
 				this.location.x,
 				this.location.y,
-				this.p.randomGaussian(15, 10),
+				10,
 			)
 			.fill(this.color);
 	}
 
-	private get color() {
-		return this.p.color(242, this.p.random(0, 255), 162, this.p.random(0, 255));
+	setColor(color: p5.Color): Mover {
+		this.color = color;
+		return this;
 	}
 }
