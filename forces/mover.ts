@@ -15,7 +15,7 @@ export default class Mover {
 		private screenWidth: number,
 		private screenHeight: number,
 		) {
-			this.location = p.createVector(p.random(0, screenWidth), p.random(0, screenHeight));
+			this.location = p.createVector(p.random(0 - screenWidth / 2, screenWidth / 2), p.random(0 - screenHeight / 2, screenHeight / 2));
 		}
 
 	move(): Mover {

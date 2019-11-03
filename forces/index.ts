@@ -22,10 +22,10 @@ export default function sketch(p: P5) {
 	const bg = p.color(p.random(130, 200), p.random(20, 120), p.random(20, 200), 70);
 	
 	p.setup = () => {
-		p.createCanvas(WIDTH, HEIGHT, 'p2d');
+		p.createCanvas(WIDTH, HEIGHT, 'webgl');
 		p.frameRate(60);
 	}
-
+	
 	p.draw = () => {
 		p.background(bg);
 
@@ -40,7 +40,10 @@ export default function sketch(p: P5) {
 				mover.applyForce(p.createVector(p.mouseX - WIDTH / 2, p.mouseY - HEIGHT / 2).sub(mover.location.x, mover.location.y).normalize());
 			}
 
-			mover.applyForce(gravity.copy().mult(mover.mass)).move();
+			mover
+				.applyForce(
+					gravity.copy().mult(mover.mass)
+				).move();
 		})
 	}
 }

@@ -18,16 +18,16 @@ export default function sketch(p: P5) {
 	const mouseAttraction = true;
 
 	const colors = [
-		() => p.color(242, p.random(255),163, 255),
-		() => p.color(242, 92, p.random(255), 255),
-		() => p.color(p.random(255), 92, 163, 255),
+		() => p.color(242, p.random(255),163, p.random(150, 255)),
+		() => p.color(242, 92, p.random(255), p.random(150, 255)),
+		() => p.color(p.random(255), 92, 163, p.random(150, 255)),
 	];
 	p.setup = () => {
-		p.createCanvas(WIDTH, HEIGHT, 'p2d');
+		p.createCanvas(WIDTH, HEIGHT, 'webgl');
 		p.frameRate(60);
+		p.background('#73BFB1');
 	}
 	p.draw = () => {
-		p.background('#73BFB1');
 
 		if (movers.length < limit) movers.push(new Mover(p, WIDTH, HEIGHT));
 
@@ -35,7 +35,7 @@ export default function sketch(p: P5) {
 			mover
 			.setColor(mover.color ? mover.color : colors[index % 3]())
 			.setRebound(true)
-			.accelerateToDirection(index === 0 || mouseAttraction ? p.createVector(p.mouseX, p.mouseY) : p.createVector(movers[index - 1].location.x, movers[index - 1].location.y))
+			.accelerateToDirection(index === 0 || mouseAttraction ? p.createVector(p.mouseX - WIDTH / 2, p.mouseY - HEIGHT / 2) : p.createVector(movers[index - 1].location.x, movers[index - 1].location.y))
 			.move();
 		})
 	}

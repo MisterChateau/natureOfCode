@@ -14,7 +14,7 @@ export default class Mover {
 		private screenWidth: number,
 		private screenHeight: number,
 		) {
-			this.location = p.createVector(p.random(0, screenWidth), p.random(0, screenHeight));
+			this.location = p.createVector(p.random(0 - screenWidth / 2, screenWidth / 2), p.random(0 - screenHeight / 2, screenHeight / 2));
 		}
 
 	move(): Mover {
@@ -49,11 +49,11 @@ export default class Mover {
 	}
 
 	private rebound() {
-		if (this.location.x >= this.screenWidth || this.location.x <= 0) {
+		if (this.location.x + 50 >= this.screenWidth / 2 || this.location.x <= 0 - this.screenWidth / 2) {
 			this.velocity.x = this.velocity.x * -1;
 		}
-		if (this.location.y >= this.screenHeight || this.location.y <= 0) {
-			this.velocity.y = this.velocity.y * -1;	
+		if (this.location.y + 50 >= this.screenHeight / 2|| this.location.y <= 0 - this.screenHeight / 2) {
+			this.velocity.y = this.velocity.y * -1;
 		}
 	}
 
