@@ -15,25 +15,27 @@ export default function sketch(p: P5) {
 
 	const movers: Mover[] = [];
 
+	const mouseAttraction = true;
 
 	const colors = [
-		() => p.color(242, p.random(255),163, p.random(100, 150)),
-		() => p.color(242, 92, p.random(255), p.random(50, 150)),
-		() => p.color(p.random(255), 92, 163, p.random(50, 150)),
+		() => p.color(242, p.random(255),163, 255),
+		() => p.color(242, 92, p.random(255), 255),
+		() => p.color(p.random(255), 92, 163, 255),
 	];
 	p.setup = () => {
 		p.createCanvas(WIDTH, HEIGHT, 'p2d');
-		p.background('#0433BF');
 		p.frameRate(60);
 	}
 	p.draw = () => {
+		p.background('#73BFB1');
+
 		if (movers.length < limit) movers.push(new Mover(p, WIDTH, HEIGHT));
 
 		movers.forEach((mover, index) => {
 			mover
 			.setColor(mover.color ? mover.color : colors[index % 3]())
 			.setRebound(true)
-			.accelerateToDirection(index === 0 ? p.createVector(p.mouseX, p.mouseY) : p.createVector(movers[index - 1].location.x, movers[index - 1].location.y))
+			.accelerateToDirection(index === 0 || mouseAttraction ? p.createVector(p.mouseX, p.mouseY) : p.createVector(movers[index - 1].location.x, movers[index - 1].location.y))
 			.move();
 		})
 	}

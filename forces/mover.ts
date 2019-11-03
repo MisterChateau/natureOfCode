@@ -4,8 +4,9 @@ export default class Mover {
 	public readonly location: Vector;
 	private acceleration: Vector = this.p.createVector(0, 0);
 	private velocity: Vector = this.p.createVector(0, 0);
-	
-	private canRebound: boolean = true;
+
+	public mass: number = 1;
+	public frictionCoefficient: number = 0.01;
 
 	public color: p5.Color;
 
@@ -20,9 +21,15 @@ export default class Mover {
 	move(): Mover {
 		this.velocity.add(this.acceleration).limit(5);
 		this.location.add(this.velocity);
+		this.draw();
 
-		this.canRebound ? this.drawWithRebound() : this.draw();
+		this.acceleration.mult(0);
 
+		return this;
+	}
+
+	applyForce(force: Vector) {
+		this.acceleration.add(force.copy().div(this.mass));
 		return this;
 	}
 
@@ -31,9 +38,15 @@ export default class Mover {
 		return this;
 	}
 
-	setRebound(rebound: boolean): Mover {
-		this.canRebound = rebound;
+	setMass(mass: number) {
+		this.mass = mass;
 		return this;
+	}
+
+	applyFriction() {
+		// inverse direction * friction coeff: -1*coef*velocity
+		const friction = this.velocity.copy().normalize().mult(-1 * this.frictionCoefficient);
+		this.applyForce(friction);
 	}
 
 	accelerate(acceleration: Vector): Mover {
@@ -42,6 +55,7 @@ export default class Mover {
 	}
 
 	accelerateToDirection(target: Vector): Mover {
+		// vector distance (substraction) normalized
 		const direction = target.sub(this.location);
 		const normalized = direction.normalize();
 		this.acceleration = normalized.div(10);
@@ -49,40 +63,23 @@ export default class Mover {
 	}
 
 	private rebound() {
-		if (this.location.x >= this.screenWidth || this.location.x <= 0) {
+		if (this.location.x + 5 >= this.screenWidth / 2 || this.location.x <= 0 - this.screenWidth / 2) {
 			this.velocity.x = this.velocity.x * -1;
 		}
-		if (this.location.y >= this.screenHeight || this.location.y <= 0) {
-			this.velocity.y = this.velocity.y * -1;	
+		if (this.location.y + 5 >= this.screenHeight / 2|| this.location.y <= 0 - this.screenHeight / 2) {
+			this.velocity.y = this.velocity.y * -1;
 		}
-	}
-
-	private drawWithRebound() {
-		this.rebound();
-		this.p
-			.noStroke()
-			.ellipse(
-				this.location.x,
-				this.location.y,
-				10,
-			)
-			.fill(this.color);
 	}
 
 	private draw() {
-		this.location.x = this.location.x < this.screenWidth
-			? this.location.x > 0 ? this.location.x : this.screenWidth
-			: 0;
-		this.location.y = this.location.y < this.screenHeight
-			? this.location.y > 0 ? this.location.y : this.screenHeight
-			: 0;
+		this.rebound();
 
 		this.p
 			.noStroke()
 			.ellipse(
 				this.location.x,
 				this.location.y,
-				10,
+				this.mass * 10,
 			)
 			.fill(this.color);
 	}
